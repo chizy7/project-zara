@@ -6,9 +6,7 @@ test_db = SqliteDatabase(':memory:')
 
 from app import app
 from app import TimelinePost
-from app import mydb
 
-mydb.initialize(test_db)
 
 MODELS = [TimelinePost]
 
@@ -29,8 +27,6 @@ class TestTimelinePost(unittest.TestCase):
 
         # Close connection to db.
         test_db.close()
-
-    # ... rest of the code ...
 
 
     def test_timeline_post(self):

@@ -28,8 +28,6 @@ class TestTimelinePost(unittest.TestCase):
         # Close connection to db.
         test_db.close()
 
-    # ... rest of the code ...
-
 
     def test_timeline_post(self):
         # Create 2 timeline posts.

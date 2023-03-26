@@ -6,9 +6,7 @@ test_db = SqliteDatabase(':memory:')
 
 from app import app
 from app import TimelinePost
-from app import mydb
 
-mydb.initialize(test_db)
 
 MODELS = [TimelinePost]
 

@@ -4,6 +4,9 @@ from flask import Flask, render_template, request
 from dotenv import load_dotenv
 from peewee import *
 from playhouse.shortcuts import model_to_dict
+from peewee import DatabaseProxy
+
+mydb = DatabaseProxy()
 
 
 load_dotenv()
@@ -19,6 +22,20 @@ else:
         host=os.getenv("MYSQL_HOST"),
         port=3306
     )
+
+# if os.getenv("TESTING") == "true":
+#     print("Running in test mode")
+#     test_db = SqliteDatabase('file:memory?mode=memory&cache=shared', uri=True)
+#     mydb.initialize(test_db)
+#     mydb.connect()
+# else:
+#     mydb.initialize(MySQLDatabase(os.getenv("MYSQL_DATABASE"),
+#         user=os.getenv("MYSQL_USER"),
+#         password=os.getenv("MYSQL_PASSWORD"),
+#         host=os.getenv("MYSQL_HOST"),
+#         port=3306
+#     ))
+#     mydb.connect()
 
 print(mydb)
 
@@ -83,7 +100,15 @@ def post_time_line_post():
     timeline_post = TimelinePost.create(name=name, email=email, content=content)
     return model_to_dict(timeline_post)
 
-
+# Suggested
+    # if not content:
+    #     abort(400, 'Invalid content')
+    # elif not name:
+    #     abort(400, 'Name is required')
+    # elif not re.match(r'^[a-zA-Z\s]+$', name):
+    #     abort(400, 'Invalid name')
+    # elif not re.match(r'^\S+@\S+\.\S+$', email):
+    #     abort(400, 'Invalid email')
 
 # @app.route('/api/timeline_post', methods=['GET'])
 # def get_time_line_post():
@@ -116,6 +141,15 @@ def get_time_line_post():
         'timeline_posts': [            model_to_dict(p)            for p in timeline_posts        ]
     }
 
+#Suggested
+# @app.route('/api/timeline_post', methods=['GET'])
+# def get_time_line_post():
+#     return {
+#         'timeline_posts': [
+#             model_to_dict(p)
+#             for p in TimelinePost.select().order_by(TimelinePost.created_at.desc())
+#         ]
+#     }
 
 @app.route('/api/delete_timeline_post/<int:id>', methods=['DELETE'])
 def delete_timeline_post(id):

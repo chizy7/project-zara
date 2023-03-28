@@ -22,21 +22,6 @@ else:
         host=os.getenv("MYSQL_HOST"),
         port=3306
     )
-
-# if os.getenv("TESTING") == "true":
-#     print("Running in test mode")
-#     test_db = SqliteDatabase('file:memory?mode=memory&cache=shared', uri=True)
-#     mydb.initialize(test_db)
-#     mydb.connect()
-# else:
-#     mydb.initialize(MySQLDatabase(os.getenv("MYSQL_DATABASE"),
-#         user=os.getenv("MYSQL_USER"),
-#         password=os.getenv("MYSQL_PASSWORD"),
-#         host=os.getenv("MYSQL_HOST"),
-#         port=3306
-#     ))
-#     mydb.connect()
-
 print(mydb)
 
 class TimelinePost(Model):
@@ -72,16 +57,6 @@ def timeline():
     return render_template('timeline.html', title="Timeline")
 
 
-# @app.route('/api/timeline_post', methods=['POST'])
-# def post_time_line_post():
-#     name = request.form['name']
-#     email = request.form['email']
-#     content = request.form['content']
-#     timeline_post = TimelinePost.create(name=name, email=email, content=content)
-
-#     return model_to_dict(timeline_post)
-
-
 @app.route('/api/timeline_post', methods=['POST'])
 def post_time_line_post():
     name = request.form.get('name')
@@ -100,36 +75,6 @@ def post_time_line_post():
     timeline_post = TimelinePost.create(name=name, email=email, content=content)
     return model_to_dict(timeline_post)
 
-# Suggested
-    # if not content:
-    #     abort(400, 'Invalid content')
-    # elif not name:
-    #     abort(400, 'Name is required')
-    # elif not re.match(r'^[a-zA-Z\s]+$', name):
-    #     abort(400, 'Invalid name')
-    # elif not re.match(r'^\S+@\S+\.\S+$', email):
-    #     abort(400, 'Invalid email')
-
-# @app.route('/api/timeline_post', methods=['GET'])
-# def get_time_line_post():
-#     return {
-#         'timeline_posts': [
-#             model_to_dict(p)
-#             for p in 
-# TimelinePost.select().order_by(TimelinePost.created_at.desc())
-#         ]
-#     }
-
-# From the unit test
-"""
-In the test code, the test_get_time_line_post method was failing due to an assertion error. Specifically, 
-the assertion self.assertEqual(first_post_data['id'], first_post.id) failed with an error AssertionError: 2 != 1.
-To fix the issue, I updated the test code to correctly set the id value of the first post, which was expected to 
-be 1 instead of the default value of 2. The line assert first_post.id == 1 was added to the test_timeline_post method 
-to ensure that the first post's id was set correctly. Additionally, the tearDown method was modified to close 
-the database connection after dropping the tables to avoid any potential resource leaks.
-"""
-
 @app.route('/api/timeline_post', methods=['GET'])
 def get_time_line_post():
     timeline_posts = (
@@ -140,16 +85,6 @@ def get_time_line_post():
     return {
         'timeline_posts': [            model_to_dict(p)            for p in timeline_posts        ]
     }
-
-#Suggested
-# @app.route('/api/timeline_post', methods=['GET'])
-# def get_time_line_post():
-#     return {
-#         'timeline_posts': [
-#             model_to_dict(p)
-#             for p in TimelinePost.select().order_by(TimelinePost.created_at.desc())
-#         ]
-#     }
 
 @app.route('/api/delete_timeline_post/<int:id>', methods=['DELETE'])
 def delete_timeline_post(id):

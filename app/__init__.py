@@ -94,3 +94,5 @@ def delete_timeline_post(id):
         return 'Timeline post deleted successfully', 200
     except TimelinePost.DoesNotExist:
         return 'Timeline post not found', 404
+    
+# Uncommented out some lines in CentOS to see if ssh will work now.
